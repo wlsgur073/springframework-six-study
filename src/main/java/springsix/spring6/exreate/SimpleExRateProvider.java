@@ -1,4 +1,6 @@
-package springsix.spring6;
+package springsix.spring6.exreate;
+
+import springsix.spring6.payment.ExRateProvider;
 
 import java.io.IOException;
 import java.math.BigDecimal;

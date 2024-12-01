@@ -1,6 +1,7 @@
-package springsix.spring6;
+package springsix.spring6.exreate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import springsix.spring6.payment.ExRateProvider;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-public class WebApiExRateProvider implements ExRateProvider{
+public class WebApiExRateProvider implements ExRateProvider {
     @Override
     public BigDecimal getExRate(String currency) throws IOException {
         URL url = new URL("https://open.er-api.com/v6/latest/" + currency);

@@ -1,4 +1,4 @@
-package springsix.spring6;
+package springsix.spring6.payment;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
