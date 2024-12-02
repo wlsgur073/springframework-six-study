@@ -1,6 +1,7 @@
 package springsix.spring6.payment;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 public class Payment {
@@ -19,6 +20,18 @@ public class Payment {
         this.convertedAmount = convertedAmount;
         this.validUntil = validUntil;
     } // BigDecimal 매개변수가 3개다. 잘못 입력하면 무엇이 A고 B인지 모를 수 있다. 따라서 builder 패턴 등의 기법을 이용하는 것이 좋다.
+
+    // 도메인 오브젝트를 활용하여 Service 레이어의 코드를 조금 더 경량화 시킨다.
+    public static Payment createPrepared(Long orderId, String currency, BigDecimal foreignCurrencyAmount, BigDecimal exRate, LocalDateTime now) {
+        BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
+        LocalDateTime validUntil = now.plusMinutes(30);
+
+        return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUntil);
+    }
+
+    public boolean isValid(Clock clock) {
+        return LocalDateTime.now(clock).isBefore(this.validUntil);
+    }
 
     public Long getOrderId() {
         return orderId;
