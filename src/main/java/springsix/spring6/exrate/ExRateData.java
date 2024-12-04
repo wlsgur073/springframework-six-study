@@ -1,4 +1,4 @@
-package springsix.spring6.exreate;
+package springsix.spring6.exrate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

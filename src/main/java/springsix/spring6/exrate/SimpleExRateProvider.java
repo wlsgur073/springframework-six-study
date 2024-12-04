@@ -1,4 +1,4 @@
-package springsix.spring6.exreate;
+package springsix.spring6.exrate;
 
 import springsix.spring6.payment.ExRateProvider;
 

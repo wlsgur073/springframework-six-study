@@ -2,8 +2,9 @@ package springsix.spring6;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springsix.spring6.exreate.CachedExRateProvider;
-import springsix.spring6.exreate.WebApiExRateProvider;
+import springsix.spring6.api.ApiTemplate;
+import springsix.spring6.exrate.CachedExRateProvider;
+import springsix.spring6.exrate.WebApiExRateProvider;
 import springsix.spring6.payment.ExRateProvider;
 import springsix.spring6.payment.PaymentService;
 
@@ -22,8 +23,13 @@ public class PaymentConfig {
     }
 
     @Bean
+    public ApiTemplate apiTemplate() {
+        return new ApiTemplate(); // 매번 새로운 인스턴스를 생성할 필요가 없기에 빈으로 설정.
+    }
+
+    @Bean
     public ExRateProvider exRateProvider() {
-        return new WebApiExRateProvider();
+        return new WebApiExRateProvider(apiTemplate());
     }
 
     @Bean

@@ -2,7 +2,7 @@ package springsix.spring6.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import springsix.spring6.exreate.ExRateData;
+import springsix.spring6.exrate.ExRateData;
 
 import java.math.BigDecimal;
 
