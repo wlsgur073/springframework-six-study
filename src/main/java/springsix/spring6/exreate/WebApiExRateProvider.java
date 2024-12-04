@@ -27,22 +27,32 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         String resp;
         try {
-            HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-
-            // `Reader`는 `AutoCloseable`를 상속하기에 자동으로 close 해준다.
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                resp = br.lines().collect(Collectors.joining());
-            }
+            resp = executeApi(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            ExRateData data = mapper.readValue(resp, ExRateData.class);
-            return data.rates().get("KRW");
+            return parseExRate(resp);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static BigDecimal parseExRate(String resp) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ExRateData data = mapper.readValue(resp, ExRateData.class);
+        return data.rates().get("KRW");
+    }
+
+    private static String executeApi(URI uri) throws IOException {
+        String resp;
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+
+        // `Reader`는 `AutoCloseable`를 상속하기에 자동으로 close 해준다.
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            resp = br.lines().collect(Collectors.joining());
+        }
+        return resp;
     }
 }
