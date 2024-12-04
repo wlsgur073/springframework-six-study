@@ -2,26 +2,24 @@ package springsix.spring6.exreate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import springsix.spring6.api.ApiExecutor;
+import springsix.spring6.api.SimpleApiExecutor;
 import springsix.spring6.payment.ExRateProvider;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.stream.Collectors;
 
 public class WebApiExRateProvider implements ExRateProvider {
     @Override
-    public BigDecimal getExRate(String currency) {
+    public BigDecimal getExRate(String currency) { // 1.클라이언트가
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return runApiForExRate(url);
+        return runApiForExRate(url, new SimpleApiExecutor()); // 2.callback 만들고
     }
 
-    private static BigDecimal runApiForExRate(String url) {
+    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor) { // 3.템플릿의 메소드를 호출한다.
         URI uri = null;
         try {
             uri = new URI(url);
@@ -31,7 +29,7 @@ public class WebApiExRateProvider implements ExRateProvider {
 
         String resp;
         try {
-            resp = executeApi(uri);
+            resp = apiExecutor.execute(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,16 +45,5 @@ public class WebApiExRateProvider implements ExRateProvider {
         ObjectMapper mapper = new ObjectMapper();
         ExRateData data = mapper.readValue(resp, ExRateData.class);
         return data.rates().get("KRW");
-    }
-
-    private static String executeApi(URI uri) throws IOException {
-        String resp;
-        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-
-        // `Reader`는 `AutoCloseable`를 상속하기에 자동으로 close 해준다.
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            resp = br.lines().collect(Collectors.joining());
-        }
-        return resp;
     }
 }
