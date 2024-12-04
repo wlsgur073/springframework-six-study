@@ -13,7 +13,7 @@ import java.time.Clock;
 public class PaymentConfig {
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(cachedExRateProvider(), clock());
+        return new PaymentService(exRateProvider(), clock());
     }
 
     @Bean

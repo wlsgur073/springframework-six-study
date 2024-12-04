@@ -2,7 +2,6 @@ package springsix.spring6.exreate;
 
 import springsix.spring6.payment.ExRateProvider;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,7 +16,7 @@ public class CachedExRateProvider implements ExRateProvider {
     }
 
     @Override
-    public BigDecimal getExRate(String currency) throws IOException {
+    public BigDecimal getExRate(String currency) {
         if (cachedExRate == null || cachedLastUpdate.isBefore(LocalDateTime.now())) {
             cachedExRate = this.target.getExRate(currency);
             cachedLastUpdate = LocalDateTime.now().plusSeconds(3);

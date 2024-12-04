@@ -27,7 +27,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족했는지 검증")
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
         testAmount(valueOf(500), valueOf(5_000), this.clock);
         testAmount(valueOf(1000), valueOf(10_000), this.clock);
         testAmount(valueOf(3000), valueOf(30_000), this.clock);
@@ -35,7 +35,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("원화 환산금액의 유효시간 계산")
-    void validUntil() throws IOException {
+    void validUntil() {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(valueOf(1_000)), clock);
 
         Payment payment = paymentService.prepare(1L, "USD", TEN);
@@ -48,7 +48,7 @@ class PaymentServiceTest {
     }
 
     // 여러 경우를 테스트하기 위해 인자를 받아서 검증해본다.
-    private static void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) throws IOException {
+    private static void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), clock);
 
         Payment payment = paymentService.prepare(1L, "USD", TEN);

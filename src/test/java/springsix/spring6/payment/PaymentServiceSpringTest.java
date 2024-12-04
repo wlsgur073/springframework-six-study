@@ -26,7 +26,7 @@ class PaymentServiceSpringTest {
 
     @Test
     @DisplayName("[Spring] convertedAmount")
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
         // exRate: 1000
         Payment payment = paymentService.prepare(1L, "USD", TEN);
 
@@ -43,7 +43,7 @@ class PaymentServiceSpringTest {
 
     @Test
     @DisplayName("[Spring] 원화 환산금액의 유효시간 계산")
-    void validUntil() throws IOException {
+    void validUntil() {
         Payment payment = paymentService.prepare(1L, "USD", TEN);
 
         // valid until 이 prepare() 30분 뒤로 설정됐는가?
