@@ -8,7 +8,7 @@ import springsix.spring6.order.OrderRepository;
 import javax.sql.DataSource;
 
 public class JdbcOrderRepository implements OrderRepository {
-    private final JdbcClient jdbcClient;
+    private final JdbcClient jdbcClient; // `jdbc`는 `autocommit = true`가 기본 값
 
     public JdbcOrderRepository(DataSource dataSource) {
         this.jdbcClient = JdbcClient.create(dataSource);
